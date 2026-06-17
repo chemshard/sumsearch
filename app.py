@@ -7,10 +7,22 @@ import requests
 import tldextract
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
+from datetime import datetime
+import psutil
+import time
 
 load_dotenv()
 
 app = Flask(__name__)
+
+@app.route('/healthz')
+def health_check():
+    return {
+        'status': 'ok',
+        'timestamp': datetime.now().isoformat(),
+        'uptime': time.time() - psutil.boot_time(),
+        'memory': psutil.virtual_memory()._asdict()
+    }
 
 # Prevent tldextract from trying to download the public suffix list at runtime.
 # This makes deployment less annoying.
