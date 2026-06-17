@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: clean-search-flask
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SEARCH_PROVIDER
+        value: demo
+      - key: SERPAPI_KEY
+        sync: false
+      - key: BRAVE_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
